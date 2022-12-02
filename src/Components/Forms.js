@@ -7,8 +7,9 @@ export default function Forms(){
     const [dataArr,setDataArr] = useState([{
         txt:'rakoto', id:uuidv4()
     }])
+    const [stateInput,setStateInput] = useState('')
 
-    const [stateInput,setStateInput] = useState()
+    const [updatedinput,setUpdatedInput] = useState()
 
     const addItem = (e) => {
         e.preventDefault()
@@ -24,7 +25,6 @@ export default function Forms(){
     }
 
     const linkedInput = (e)=>{
-        console.log(e)
         setStateInput(e)
     }
 
@@ -34,13 +34,18 @@ export default function Forms(){
         })
         setDataArr(filteredState)
     }
+
+    const updateItem = (val, id)=>{
+        setStateInput(val)
+        setUpdatedInput([{val,id}])
+    }
     return (
         <div className="m-auto px-4 col-12 col-sm-10 col-lg-6">
             <form onSubmit = {(e)=> addItem(e)} className="mb-3">
                 <label htmlFor="todo" className="form-label mt-3">
                     todo
                 </label>
-                <input value={stateInput} onInput = {e => linkedInput(e.target.value)} type="text" className="form-control" id="todo" />
+                <input value={stateInput} onChange = {e => linkedInput(e.target.value)} type="text" className="form-control" id="todo" />
                 <button  className="mt-2 btn btn-primary d-block">
                     Send
                 </button>
@@ -50,7 +55,7 @@ export default function Forms(){
             <ul className="list-group">
                 {dataArr.map((value)=>{
                     return (
-                        <Items txt={value.txt} delFunc ={deleteItem} key = {value.id}  id = {value.id} />
+                        <Items up={updatedinput} txt={value.txt} delFunc ={deleteItem} updateFunc={updateItem} key = {value.id}  id = {value.id} />
                             )
                         }
                     )
